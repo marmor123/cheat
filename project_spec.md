@@ -133,8 +133,8 @@ if (navigator.gpu && await checkWebGPUSupport()) {
 **Crates:**
 ```toml
 [dependencies]
-fft = "0.2"
-butterworth = "0.1"
+biquad = "0.4"
+rustfft = "6.0"
 wasm-bindgen = "0.2"
 ```
 
@@ -445,7 +445,7 @@ for filename, bpm, duration in test_cases:
    ```bash
    cargo new --lib ppg-wasm
    cd ppg-wasm
-   cargo add wasm-bindgen wasm-pack
+   cargo add wasm-bindgen
    cargo add biquad    # For Butterworth filter
    cargo add rustfft   # For FFT
    ```
@@ -469,7 +469,7 @@ for filename, bpm, duration in test_cases:
 
 3. **Implement Butterworth Bandpass Filter**
    ```rust
-   use biquad::*;
+   use biquad::{Biquad, Coefficients, DirectForm2Transposed, Hertz, Q_BUTTERWORTH_F32, Type};
    
    #[wasm_bindgen]
    pub struct ButterworthFilter {
@@ -509,7 +509,8 @@ for filename, bpm, duration in test_cases:
 
 4. **Implement FFT-based BPM Estimator**
    ```rust
-   use rustfft::{FftPlanner, num_complex::Complex};
+   use rustfft::FftPlanner;
+   use rustfft::num_complex::Complex;
    
    #[wasm_bindgen]
    pub fn estimate_bpm(signal: &[f32], sample_rate: f32) -> f32 {
