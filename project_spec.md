@@ -240,20 +240,7 @@ export interface UseBioSensorReturn {
   /** 
    * State machine status
    */
-  status: 'CALIBRATING' | 'MEASURING' | 'OBSCURED' | 'ERROR';
-
-  /**
-   * Error details if status === 'ERROR'
-   */
-  error?: {
-    code: 'NO_CAMERA' | 'PERMISSION_DENIED' | 'WORKER_CRASH' | 'GPU_UNAVAILABLE';
-    message: string;
-  };
-
-  /**
-   * Manual recalibration trigger (useful after changing lighting)
-   */
-  recalibrate: () => void;
+  status: 'CALIBRATING' | 'MEASURING' | 'OBSCURED';
 }
 
 export interface UseBioSensorOptions {
@@ -679,7 +666,6 @@ for filename, bpm, duration in test_cases:
        history: new Float32Array(300),
        signal_quality: 0,
        status: 'CALIBRATING',
-       recalibrate: () => {},
      });
      
      const workerRef = useRef<Worker>();
